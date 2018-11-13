@@ -1,0 +1,122 @@
+{% load staticfiles %}
+{% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+<!DOCTYPE html>
+<html>
+<head>
+	{% block title %}<title>Spectral Insights</title>{% endblock %}
+
+
+	<meta charset="UTF-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<meta http-equiv="X-UA-Compatible" content="ie-edge">
+  	<link rel="stylesheet" type="text/css" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.min.js"></script>
+    <script src="{% static "js/jquery.js" %}"></script>
+	 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script> 
+    
+	
+
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	
+	</head>
+	<body class="white-skin">
+	{% block content %}
+	{% block nav %}
+	<nav class="navbar navbar-expand-lg navbar-dark bg-info mb-5">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#" >Image Processing Assignment</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+	   		 <ul class="navbar-nav mr-auto" id="nav">
+		      <li class="nav-item active">{% block nav-index %}
+		        <a class="nav-link" href="{{views.index}}">Home <span class="sr-only">(current)</span></a>{% endblock %}
+		      </li>
+		      <li class="nav-item">{% block nav-gallery %}
+		        <a class="nav-link" href="{{views.gallery}}">Photo Gallery</a>{% endblock %}
+		      </li>
+		     </ul>	
+	     </div>
+	     </div>
+	</nav>
+	{% endblock %}
+	
+	<div class="container">
+		<div class="row"> 
+			<div class="col-md-10 m-auto">
+				<div class="custom-file mb-3">
+					<input type="file" class="custom-file-input" id="upload-file" >
+					<label for="upload-file" class="custom-file-label" >Upload an Image</label>
+	    		</div> 
+				<canvas id="canvas" title="Drop an image here to upload"></canvas>
+				
+				<div class="row text-center my-4">
+					<div class="col-md-3">
+						<div id="blur">Blur</div> 
+					    <div id="grayscale">Grayscale</div> 
+					</div>
+					<div class="col-md-3">
+					    <div id="brightness">brightness</div>
+					    <div id="contrast">contrast</div>
+					</div>
+					<div class="col-md-3">
+					    <div id="rotate">huerotate</div>
+					    <div id="invert">invert</div>
+					</div>
+					<div class="col-md-3">
+					    <div id="opacity">opacity</div>
+					    <div id="saturate">saturate</div>
+					</div>
+					<div class="col-md-3">
+					    <div id="sepia">sepia</div>
+					</div>
+				</div>
+				<div class="container">
+							<div class="avatar-upload">
+								<div class="avatar-edit">
+									<form action="{% url 'index' %}" method="post" enctype="multipart/form-data">
+						        	    {% csrf_token %}
+						            	<p>{{ form.non_field_errors }}</p>
+						            	<p>
+										<input id="id_imgfile" class="custom-file-input" name="imgfile" multiple="true" required="" accept=".png, .jpg, .jpeg" type="file" style="display:none ;"/>
+						        		<label for="id_imgfile" class="btn btn-primary btn-file">Select files to upload in gallery</label>
+						            	<label class="btn btn-primary upload"><i class="fa fa-upload"></i>Upload to gallery<input type="submit" value="Upload" style="display: none;" /></label>
+					            </div>
+					            	</p>
+						        	</form>
+							</div>
+						</div> 
+
+				<div class="row my-5">
+						<div class="col-md-6">
+							<button id="download-btn" class="btn btn-primary btn-block">Save Image</button>
+						</div>
+						<div class="col-md-6">
+							<button id="revert-btn" class="btn btn-danger btn-block">Undo Actions</button>
+						</div>
+						
+				</div>
+		
+			</div>
+			
+		
+	</div>	
+	</div>
+		
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.min.js"></script>
+	<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+
+	{% endblock %}			
+</body>
+</html>
